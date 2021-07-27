@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+* {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.topnav {
+    width: 100vw;
+    height: 60px;
+    background-color: bisque;
+    background-color: lightcyan;
+    font-size: 48px;
+    padding-left: 20px;
+}
+
+.topnav .material-icons-outlined {
+    font-size: 48px;
+    margin-right: 5px;
+}
+
+.sidebar {
+    display: block;
+    box-sizing: border-box;
+    position: fixed;
+    width: 200px;
+    height: calc(100vh - 90px);
+    background-color: cornflowerblue;
+    z-index: 1;
+    overflow-x: hidden;
+    padding: 10px 10px;
+}
+
+.sidebar button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    border: 0;
+    border-radius: 8px;
+    margin: 10px auto;
+    font-size: 1em;
+    padding-left: 10px;
+    cursor: pointer;
+    background: lightblue;
+    transition-duration: 0.4s;
+}
+
+.sidebar button .material-icons-outlined {
+    margin-right: 5px;
+}
+
+.sidebar button:hover {
+    background-color: lightcyan;
+}
+
+.main-section {
+    display: flex;
+    flex-direction: column;
+    width: calc(100vw - 200px);
+    height: calc(100vh - 80px);
+    margin-left: 200px;
+    background-color: skyblue;
+    padding: 20px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    font-size: 24px;
+}
+
+.task-add {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+}
+
+.section-header button {
+    display: flex;
+    align-items: center;
+    width: auto;
+    height: 40px;
+    border: 0;
+    border-radius: 8px;
+    margin-left: auto;
+    font-size: 0.8em;
+    padding: 0 10px;
+    cursor: pointer;
+    background: lightcoral;
+    transition-duration: 0.4s;
+}
+
+.section-header button:hover {
+    background-color: tomato;
+}
+
+.task-list {
+
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px;
+    background-color: lightcyan;
+    padding: 8px 25px;
+    transition-duration: 0.4s;
+    border-radius: 8px;
+    user-select: none;
+}
+
+.task:hover {
+    background-color: lightyellow;
+
+}
+
+.task-completed {
+    background-color: lightsalmon;
+}
+
+.line-through {
+    text-decoration: line-through;
+}
+
+.task-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-left i {
+    margin-right: 10px;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: 30px;
+    background-color: yellowgreen;
+    background-color: lightcyan;
+}
