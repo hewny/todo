@@ -7,10 +7,10 @@
 
 <body>
     <div class="container">
-        <div class="topnav">
+        <div class="topnav-container">
             <i class="material-icons-outlined">done_outline</i>To-Do List
         </div>
-        <div class="sidebar">
+        <div class="sidebar-container">
             <button><i class="material-icons-outlined">home</i>Inbox</button>
             <button><i class="material-icons-outlined">event</i>Today</button>
             <button><i class="material-icons-outlined">date_range</i>This Week</button>
@@ -19,15 +19,24 @@
             <button><i class="material-icons-outlined">chevron_right</i>Work</button>
             <button><i class="material-icons-outlined">add</i>Add new project</button>
         </div>
-        <div class="main-section">
-            <div class="section-header">
+        <div class="main-container">
+            <div class="main-header">
                 <h3>Inbox</h3>
                 <button><i class="material-icons-outlined">add</i>Add new task</button>
             </div>
 
-            <!-- ADD MODAL OVERLAY -->
+            <div class="add-task-overlay"></div>
+            <div class="add-task-container">
+                <label for="task-name">Name:*</label></br>
+                <input type="text" id="task-name" name="task-name" placeholder="eg. Clean my room"><br>
+                <label for="task-desc">Details:</label></br>
+                <textarea type="text" id="task-desc" name="task-desc" placeholder="eg. Vacuum floor and change bedsheets"></textarea><br>
+                <label for="task-date">Due Date:</label></br>
+                <input type="date" id="task-date" name="task-date" value="2021-07-31"><br>
+                <button><i class="material-icons-outlined">add</i>Add Task</button>
+            </div>
             
-            <div class="task-list">
+            <div class="task-list-container">
                 <div class="task">
                     <div class="task-left">
                         <i class="material-icons-outlined">radio_button_unchecked</i>
