@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Material+Icons+Outlined');
 
 * {
     font-family: 'Roboto', sans-serif;
@@ -146,17 +147,15 @@ button {
     background-color: lightgreen;
 }
 
-.show-div {
-    display: block;
-}
-
 .task {
     display: flex;
+    flex-wrap: wrap;
+    width: 100%;
     align-items: center;
     justify-content: space-between;
     margin: 5px;
     background-color: lightcyan;
-    padding: 8px 25px;
+    padding: 8px 15px 8px 25px;
     transition-duration: 0.4s;
     border-radius: 8px;
     user-select: none;
@@ -182,6 +181,41 @@ button {
 
 .task-left i {
     margin-right: 10px;
+}
+
+.task-left i:hover {
+    background-color: lightpink;
+    border-radius: 50%;
+}
+
+.task-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-right i {
+    margin-left: 10px;
+    border-radius: 8px;
+    padding: 2px;
+}
+
+.task-right i:hover {
+    background-color: lightpink;
+}
+
+.task-details {
+    display: none;
+    width: 100%;
+}
+
+.task-details p {
+    padding-left: 5px;
+    color: grey;
+}
+
+.show-div {
+    display: block;
 }
 
 .footer {
