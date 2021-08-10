@@ -1,14 +1,23 @@
 class User {
     constructor() {
         this.tasks = []
+        this.projects = []
     }
 
-    addTask(task) {
-        this.tasks.push(task)
+    addTask(obj) {
+        this.tasks.push(obj)
     }
 
-    removeTask(task) {
-        this.tasks.splice(task,1)
+    removeTask(index) {
+        this.tasks.splice(index,1)
+    }
+
+    addProject(name) {
+        this.projects.push(name)
+    }
+
+    removeProject(index) {
+        this.projects.splice(index,1)
     }
 }
 

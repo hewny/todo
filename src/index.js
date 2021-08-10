@@ -1,10 +1,7 @@
 import css from './style.css';
-import { renderNav } from './modules/topnav'
 import { User } from './modules/user';
 import { addTask, Task } from './modules/task';
-import { renderSidebar } from './modules/sidebar';
-import { renderTaskList, renderTasks, toggleAddTask, toggleTaskDescription} from './modules/main-container';
-import { renderFooter } from './modules/footer';
+import { renderNav, renderFooter, renderSidebar, renderTasks, renderTaskList, toggleAddTask, toggleTaskDescription } from './modules/ui';
 
 var createContainer = document.createElement('div');
 createContainer.id = 'container';
@@ -81,15 +78,17 @@ renderSidebar();
 renderTasks();
 renderFooter();
 
-
 window.addEventListener('click', (e) => {
-    console.log(e.target.id)
+    console.log(e.target)
     if (e.target.id === 'add-new-task' || e.target.id === 'add-task-overlay') {
         toggleAddTask()
     }
     if (e.target.id === 'add-task') {
         addTask()
         renderTaskList()
+    }
+    if (Number.parseInt(e.target.id)!==NaN) {
+        toggleTaskDescription(Number.parseInt(e.target.id))
     }
 })
 

@@ -1,30 +1,55 @@
-import { $container, createElement, createIcon, createInput, $user, $addTaskOverlay, $addTaskContainer, $taskListContainer} from "..";
+import { $container, createElement, createInput, createIcon, $user, $taskListContainer, $addTaskOverlay, $addTaskContainer } from "../index.js";
+
+const defaultMenu = [
+    {icon:"home", text:"Inbox", id:"inbox"},
+    {icon:"event", text:"Today", id:"today"},
+    {icon:"date_range", text:"This Week", id:"this-week"},
+]
+
+function renderNav() {
+    var nav = createElement('div','topnav-container',null,'done_outline','To-Do List')
+    $container.appendChild(nav)
+}
+
+function renderFooter() {
+    var footer = createElement('div','footer',null,null,'Created by Hewny')
+    $container.appendChild(footer)
+}
+
+function renderSidebar() {
+    var sidebar = createElement('div','sidebar-container',null,null,null)
+
+    defaultMenu.forEach ((menu) => {
+        var tempMenu = createElement('button',null,menu.id,menu.icon,menu.text)
+        sidebar.appendChild(tempMenu)
+    })
+
+    var tempBar = createElement('h2',null,null,null,'Projects')
+    sidebar.appendChild(tempBar)
+
+    var tempBar2 = createElement('button',null,'add-new-project','add','Add new Project')
+    sidebar.appendChild(tempBar2)
+
+    $container.appendChild(sidebar)
+}
 
 function renderTasks() {
     var mainContainer = createElement('div','main-container',null,null,null)
 
-    mainContainer.appendChild(createMainHeader())
-    mainContainer.appendChild(createAddTaskOverlay())
-    mainContainer.appendChild(createAddTaskContainer())
-    mainContainer.appendChild(createTaskListContainer())
+    mainContainer.appendChild(_createAddTaskOverlay())
+    mainContainer.appendChild(_createAddTaskContainer())
+    mainContainer.appendChild(_createMainHeader())
+    mainContainer.appendChild(_createTaskListContainer())
 
     $container.appendChild(mainContainer)
 }
 
-function createMainHeader() {
-    var mainHeader = createElement('div','main-header',null,null,null)
-    mainHeader.appendChild(createElement('h3',null,null,null,'Inbox'))
-    mainHeader.appendChild(createElement('button',null,'add-new-task','add','Add new task'))
-
-    return mainHeader
-}
-
-function createAddTaskOverlay() {
+function _createAddTaskOverlay() {
     var addTaskOverlay = createElement('div','add-task-overlay','add-task-overlay',null,null)
     return addTaskOverlay
 }
 
-function createAddTaskContainer() {
+function _createAddTaskContainer() {
     var addTaskContainer = createElement('div','add-task-container',null,null,null)
 
     addTaskContainer.appendChild(createInput('label',null,null,null,null,null,'task-name','Name:*'))
@@ -38,10 +63,18 @@ function createAddTaskContainer() {
     return addTaskContainer
 }
 
-function createTaskListContainer() {
+function _createTaskListContainer() {
     var taskListContainer = createElement('div','task-list-container','task-list-container',null,null)
 
     return taskListContainer
+}
+
+function _createMainHeader() {
+    var mainHeader = createElement('div','main-header',null,null,null)
+    mainHeader.appendChild(createElement('h3',null,null,null,'Inbox'))
+    mainHeader.appendChild(createElement('button',null,'add-new-task','add','Add new task'))
+
+    return mainHeader
 }
 
 function renderTaskList() {
@@ -83,9 +116,8 @@ function toggleAddTask() {
 
 function toggleTaskDescription(index) {
     $user.tasks[index].updateStatus()
-    console.log($user.tasks[index].status)
-    renderTasks()
+    renderTaskList()
 }
 
 
-export {renderTasks, renderTaskList, toggleAddTask, toggleTaskDescription}
+export {renderNav, renderFooter, renderSidebar, renderTasks, renderTaskList, toggleAddTask, toggleTaskDescription}
