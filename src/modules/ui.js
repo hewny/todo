@@ -1,4 +1,4 @@
-import { $container, createElement, createInput, createIcon, $taskListContainer, $addTaskOverlay, $addTaskContainer } from "../index.js";
+import { $container, createElement, createInput, createIcon, $sideBarContainer, $taskListContainer, $addTaskOverlay, $addTaskContainer } from "../index.js";
 import { $user, updateLocalStorage } from "./storage";
 
 const defaultMenu = [
@@ -18,20 +18,20 @@ function renderFooter() {
 }
 
 function renderSidebar() {
-    var sidebar = createElement('div','sidebar-container',null,null,null)
+    var sideBarContainer = createElement('div','sidebar-container','sidebar-container',null,null)
 
     defaultMenu.forEach ((menu) => {
         var tempMenu = createElement('button',null,menu.id,menu.icon,menu.text)
-        sidebar.appendChild(tempMenu)
+        sideBarContainer.appendChild(tempMenu)
     })
 
     var tempBar = createElement('h2',null,null,null,'Projects')
-    sidebar.appendChild(tempBar)
+    sideBarContainer.appendChild(tempBar)
 
     var tempBar2 = createElement('button',null,'add-new-project','add','Add new Project')
-    sidebar.appendChild(tempBar2)
+    sideBarContainer.appendChild(tempBar2)
 
-    $container.appendChild(sidebar)
+    $container.appendChild(sideBarContainer)
 }
 
 function renderTasks() {
@@ -89,13 +89,20 @@ function renderTaskList() {
 
         if ($user.tasks[i].status === true) {
             taskLeft.appendChild(createIcon('check_circle',i))
+            task.classList.add('task-completed')
+            taskLeft.appendChild(createElement('p','line-through',i,null,$user.tasks[i].title))
+            taskRight.appendChild(createElement('p','line-through',i,null,$user.tasks[i].date))
         } else {
             taskLeft.appendChild(createIcon('radio_button_unchecked',i))
+            taskLeft.appendChild(createElement('p',null,i,null,$user.tasks[i].title))
+            taskRight.appendChild(createElement('p',null,i,null,$user.tasks[i].date))
         }
-        taskLeft.appendChild(createElement('p',null,i,null,$user.tasks[i].title))
-        taskRight.appendChild(createElement('p',null,i,null,$user.tasks[i].date))
         taskRight.appendChild(createIcon('delete',i))
         taskDetails.appendChild(createElement('p',null,i,null,$user.tasks[i].description))
+
+        if ($user.tasks[i].descriptionFlag === true) {
+            taskDetails.classList.add('show-div')
+        }
         
         task.appendChild(taskLeft)
         task.appendChild(taskRight)
@@ -115,11 +122,23 @@ function toggleAddTask() {
     }
 }
 
-function toggleTaskDescription(index) {
+function removeTask(index) {
+    $user.removeTask(index);
+    updateLocalStorage()
+    renderTaskList()
+}
+
+function toggleTaskStatus(index) {
     $user.tasks[index].updateStatus()
     updateLocalStorage()
     renderTaskList()
 }
 
+function toggleTaskDescription(index) {
+    $user.tasks[index].updateDescriptionFlag()
+    updateLocalStorage()
+    renderTaskList()
+}
 
-export {renderNav, renderFooter, renderSidebar, renderTasks, renderTaskList, toggleAddTask, toggleTaskDescription}
+
+export {renderNav, renderFooter, renderSidebar, renderTasks, renderTaskList, toggleAddTask, removeTask, toggleTaskStatus, toggleTaskDescription}

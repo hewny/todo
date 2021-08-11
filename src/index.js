@@ -1,6 +1,6 @@
 import css from './style.css';
 import { User, Task, addTask, $user} from './modules/storage';
-import { renderNav, renderFooter, renderSidebar, renderTasks, renderTaskList, toggleAddTask, toggleTaskDescription } from './modules/ui';
+import { renderNav, renderFooter, renderSidebar, renderTasks, renderTaskList, toggleAddTask, removeTask, toggleTaskStatus, toggleTaskDescription } from './modules/ui';
 
 var createContainer = document.createElement('div');
 createContainer.id = 'container';
@@ -72,7 +72,7 @@ renderTasks();
 renderFooter();
 
 window.addEventListener('click', (e) => {
-    console.log(e.target)
+    console.log(e.target.id)
     if (e.target.id === 'add-new-task' || e.target.id === 'add-task-overlay') {
         toggleAddTask()
     }
@@ -80,11 +80,20 @@ window.addEventListener('click', (e) => {
         addTask()
         renderTaskList()
     }
-    if (Number.parseInt(e.target.id)!==NaN) {
-        toggleTaskDescription(Number.parseInt(e.target.id))
+    if (!isNaN(Number.parseInt(e.target.id))) {
+        if (e.target.tagName === 'I' && e.target.innerText === 'delete') {
+            removeTask(e.target.id)
+        }
+        else if (e.target.tagName === 'I' && (e.target.innerText === 'radio_button_unchecked'||e.target.innerText === 'check_circle')) {
+            toggleTaskStatus(e.target.id)
+        }
+        else {
+            toggleTaskDescription(e.target.id)
+        }
     }
 })
 
+const $sideBarContainer = document.getElementById('sidebar-container')
 const $addTaskOverlay = document.getElementsByClassName('add-task-overlay')
 const $addTaskContainer= document.getElementsByClassName('add-task-container')
 const $taskListContainer = document.getElementById('task-list-container')
@@ -94,4 +103,4 @@ const $taskDate = document.getElementById('task-date')
 
 renderTaskList()
 
-export {$container, createIcon, createElement, createInput, $addTaskOverlay, $addTaskContainer, $taskListContainer, $taskName, $taskDesc, $taskDate}
+export {$container, createIcon, createElement, createInput, $sideBarContainer, $addTaskOverlay, $addTaskContainer, $taskListContainer, $taskName, $taskDesc, $taskDate}

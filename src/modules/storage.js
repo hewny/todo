@@ -30,6 +30,7 @@ class Task {
         this.description = description;
         this.date = date;
         this.status = status;
+        this.descriptionFlag = false;
     }
 
     updateStatus() {
@@ -39,13 +40,20 @@ class Task {
             this.status = false
         }
     }
+    updateDescriptionFlag() {
+        if (this.descriptionFlag === false) {
+            this.descriptionFlag = true
+        } else {
+            this.descriptionFlag = false
+        }
+    }
 }
 
 function addTask() {
     if ($taskName.value === "") {
         alert('Task Name is required')
     } else {
-        var tempTask = new Task($taskName.value, $taskDesc.value, $taskDate.value, false)
+        var tempTask = new Task($taskName.value, `Details: ${$taskDesc.value}`, $taskDate.value, false)
         $user.addTask(tempTask)
         updateLocalStorage()
         
