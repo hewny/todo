@@ -1,5 +1,5 @@
-import {$taskName, $taskDesc, $taskDate, $user} from "./../index";
-import { toggleAddTask } from "./ui";
+import { $taskName, $taskDesc, $taskDate } from "./../index";
+import { renderFooter, renderTaskList, toggleAddTask } from "./ui";
 
 class User {
     constructor() {
@@ -47,6 +47,7 @@ function addTask() {
     } else {
         var tempTask = new Task($taskName.value, $taskDesc.value, $taskDate.value, false)
         $user.addTask(tempTask)
+        updateLocalStorage()
         
         $taskName.value = "";
         $taskDesc.value = "";
@@ -55,4 +56,62 @@ function addTask() {
     }
 }
 
-export {User, Task, addTask}
+function storageAvailable(type) {
+	var storage;
+	if (localStorage.length !== 0) {
+		try {
+			storage = window[type];
+			var x = '__storage_test__';
+			storage.setItem(x, x);
+			storage.removeItem(x);
+			return true;
+		}
+		catch(e) {
+			return e instanceof DOMException && (
+				// everything except Firefox
+				e.code === 22 ||
+				// Firefox
+				e.code === 1014 ||
+				// test name field too, because code might not be present
+				// everything except Firefox
+				e.name === 'QuotaExceededError' ||
+				// Firefox
+				e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+				// acknowledge QuotaExceededError only if there's something already stored
+				(storage && storage.length !== 0);
+		}
+	}
+}
+
+var $user = new User
+
+function updateLocalStorage() {
+    if ($user.length === 0) {
+        localStorage.removeItem('localTasks')
+    } else {
+        localStorage.setItem('localTasks', JSON.stringify($user))
+    }
+}
+
+appInit()
+
+function appInit() {
+    if (storageAvailable('localStorage')) {
+        let tempUser = JSON.parse(localStorage.getItem('localTasks'));
+        // console.log(tempUser)
+
+        tempUser.tasks.forEach( task => {
+            let newTask = new Task(task.title, task.description, task.date, task.status)
+            $user.addTask(newTask)
+        })
+      } 
+      else {
+        $user = new User
+      }
+}
+
+function restoreFromStorage() {
+
+}
+
+export {User, Task, addTask, updateLocalStorage, $user}

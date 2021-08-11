@@ -1,4 +1,5 @@
-import { $container, createElement, createInput, createIcon, $user, $taskListContainer, $addTaskOverlay, $addTaskContainer } from "../index.js";
+import { $container, createElement, createInput, createIcon, $taskListContainer, $addTaskOverlay, $addTaskContainer } from "../index.js";
+import { $user, updateLocalStorage } from "./storage";
 
 const defaultMenu = [
     {icon:"home", text:"Inbox", id:"inbox"},
@@ -116,6 +117,7 @@ function toggleAddTask() {
 
 function toggleTaskDescription(index) {
     $user.tasks[index].updateStatus()
+    updateLocalStorage()
     renderTaskList()
 }
 

@@ -1,5 +1,5 @@
 import css from './style.css';
-import { User, Task, addTask } from './modules/storage';
+import { User, Task, addTask, $user} from './modules/storage';
 import { renderNav, renderFooter, renderSidebar, renderTasks, renderTaskList, toggleAddTask, toggleTaskDescription } from './modules/ui';
 
 var createContainer = document.createElement('div');
@@ -66,12 +66,6 @@ function createInput(type, inputType, id, inputName, inputPlaceholder, inputValu
     return tempInput
 }
 
-
-const $user = new User
-
-var tempTask = new Task('temp title','temp description','2021-07-23',false)
-$user.addTask(tempTask)
-
 renderNav();
 renderSidebar();
 renderTasks();
@@ -100,4 +94,4 @@ const $taskDate = document.getElementById('task-date')
 
 renderTaskList()
 
-export {$container, createIcon, createElement, createInput, $user, $addTaskOverlay, $addTaskContainer, $taskListContainer, $taskName, $taskDesc, $taskDate}
+export {$container, createIcon, createElement, createInput, $addTaskOverlay, $addTaskContainer, $taskListContainer, $taskName, $taskDesc, $taskDate}
