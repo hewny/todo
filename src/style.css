@@ -59,6 +59,33 @@ button {
     background-color: lightcyan;
 }
 
+.sidebar-container input {
+    width: 100%;
+    margin: 10px auto;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 8px;
+    background-color: white;
+    font-size: 18px;
+    outline: none;
+}
+
+.sidebar-container .proj-btn-add {
+    display: inline;
+    width: 40%;
+    padding-left: 0;
+    margin: 10px 5px;
+    background-color: lightgreen;
+}
+
+.sidebar-container .proj-btn-cancel {
+    display: inline;
+    width: 40%;
+    padding-left: 0;
+    margin: 10px 5px;
+    background-color: lightcoral;
+}
+
 .main-container {
     display: flex;
     flex-direction: column;
@@ -226,6 +253,5 @@ button {
     bottom: 0;
     width: 100vw;
     height: 30px;
-    background-color: yellowgreen;
     background-color: lightcyan;
 }

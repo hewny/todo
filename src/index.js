@@ -1,6 +1,6 @@
 import css from './style.css';
-import { User, Task, addTask, $user} from './modules/storage';
-import { renderNav, renderFooter, renderSidebar, renderTasks, renderTaskList, toggleAddTask, removeTask, toggleTaskStatus, toggleTaskDescription } from './modules/ui';
+import { User, Task, addProj, addTask, $user} from './modules/storage';
+import { renderNav, renderFooter, renderSidebar, renderSidebarProjects, renderTasks, renderTaskList, renderAddProject, toggleAddTask, removeTask, toggleTaskStatus, toggleTaskDescription } from './modules/ui';
 
 var createContainer = document.createElement('div');
 createContainer.id = 'container';
@@ -76,6 +76,15 @@ window.addEventListener('click', (e) => {
     if (e.target.id === 'add-new-task' || e.target.id === 'add-task-overlay') {
         toggleAddTask()
     }
+    if (e.target.id === 'add-new-project') {
+        renderAddProject()
+    }
+    if (e.target.id === 'proj-btn-add') {
+        addProj()
+    }
+    if (e.target.id === 'proj-btn-cancel') {
+        renderSidebarProjects()
+    }
     if (e.target.id === 'add-task') {
         addTask()
         renderTaskList()
@@ -102,5 +111,11 @@ const $taskDesc = document.getElementById('task-desc')
 const $taskDate = document.getElementById('task-date')
 
 renderTaskList()
+
+// console.log($sideBarContainer.lastChild)
+// console.log($sideBarContainer.lastElementChild)
+
+renderSidebarProjects()
+renderSidebarProjects()
 
 export {$container, createIcon, createElement, createInput, $sideBarContainer, $addTaskOverlay, $addTaskContainer, $taskListContainer, $taskName, $taskDesc, $taskDate}

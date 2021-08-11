@@ -8,30 +8,61 @@ const defaultMenu = [
 ]
 
 function renderNav() {
-    var nav = createElement('div','topnav-container',null,'done_outline','To-Do List')
-    $container.appendChild(nav)
+    $container.appendChild(createElement('div','topnav-container',null,'done_outline','To-Do List'))
 }
 
 function renderFooter() {
-    var footer = createElement('div','footer',null,null,'Created by Hewny')
-    $container.appendChild(footer)
+    $container.appendChild(createElement('div','footer',null,null,'Created by Hewny'))
 }
 
 function renderSidebar() {
-    var sideBarContainer = createElement('div','sidebar-container','sidebar-container',null,null)
+    $container.appendChild(createElement('div','sidebar-container','sidebar-container',null,null))
+}
+
+function renderSidebarProjects() {
+    $sideBarContainer.innerHTML = ''
+    console.log('emptied container')
 
     defaultMenu.forEach ((menu) => {
         var tempMenu = createElement('button',null,menu.id,menu.icon,menu.text)
-        sideBarContainer.appendChild(tempMenu)
+        $sideBarContainer.appendChild(tempMenu)
     })
 
-    var tempBar = createElement('h2',null,null,null,'Projects')
-    sideBarContainer.appendChild(tempBar)
+    $sideBarContainer.appendChild(createElement('h2',null,null,null,'Projects'))
 
-    var tempBar2 = createElement('button',null,'add-new-project','add','Add new Project')
-    sideBarContainer.appendChild(tempBar2)
+    $user.projects.forEach (project => {
+        $sideBarContainer.appendChild(createElement('button',null,null,'arrow_right',project))
+    })
 
-    $container.appendChild(sideBarContainer)
+    $sideBarContainer.appendChild(createElement('button',null,'add-new-project','add','Add new Project'))
+}
+
+// function renderSidebar() {
+//     _clearSidebar()
+//     var sideBarContainer = createElement('div','sidebar-container','sidebar-container',null,null)
+
+//     defaultMenu.forEach ((menu) => {
+//         var tempMenu = createElement('button',null,menu.id,menu.icon,menu.text)
+//         sideBarContainer.appendChild(tempMenu)
+//     })
+
+//     var tempBar = createElement('h2',null,null,null,'Projects')
+//     sideBarContainer.appendChild(tempBar)
+
+//     $user.projects.forEach (project => {
+//         sideBarContainer.appendChild(createElement('button',null,null,'arrow_right',project))
+//     })
+
+//     var tempBar2 = createElement('button',null,'add-new-project','add','Add new Project')
+//     sideBarContainer.appendChild(tempBar2)
+
+//     $container.appendChild(sideBarContainer)
+// }
+
+function _clearSidebar() {
+    if (document.getElementById('sidebar-container')) {
+        document.getElementById('sidebar-container').innerHTML = ''
+    }
 }
 
 function renderTasks() {
@@ -43,6 +74,15 @@ function renderTasks() {
     mainContainer.appendChild(_createTaskListContainer())
 
     $container.appendChild(mainContainer)
+}
+
+function renderAddProject() {
+    $sideBarContainer.removeChild($sideBarContainer.lastChild)
+    $sideBarContainer.appendChild(createInput('input','text','proj-input',null,"eg. Work",null,null))
+    $sideBarContainer.appendChild(createElement('button','proj-btn-add','proj-btn-add',null,'Add'))
+    $sideBarContainer.appendChild(createElement('button','proj-btn-cancel','proj-btn-cancel',null,'Cancel'))
+
+    console.log(document.getElementById('proj-input'))
 }
 
 function _createAddTaskOverlay() {
@@ -141,4 +181,4 @@ function toggleTaskDescription(index) {
 }
 
 
-export {renderNav, renderFooter, renderSidebar, renderTasks, renderTaskList, toggleAddTask, removeTask, toggleTaskStatus, toggleTaskDescription}
+export {renderNav, renderFooter, renderSidebar, renderSidebarProjects, renderTasks, renderTaskList, renderAddProject, toggleAddTask, removeTask, toggleTaskStatus, toggleTaskDescription}

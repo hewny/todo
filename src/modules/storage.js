@@ -1,5 +1,5 @@
 import { $taskName, $taskDesc, $taskDate } from "./../index";
-import { renderFooter, renderTaskList, toggleAddTask } from "./ui";
+import { renderSidebarProjects, toggleAddTask } from "./ui";
 
 class User {
     constructor() {
@@ -49,6 +49,15 @@ class Task {
     }
 }
 
+function addProj() {
+    if (document.getElementById('proj-input').value === "") {
+        alert('Project Name is required')
+    } else {
+        $user.addProject(document.getElementById('proj-input').value)
+        updateLocalStorage()
+        renderSidebarProjects()
+    }
+}
 function addTask() {
     if ($taskName.value === "") {
         alert('Task Name is required')
@@ -108,6 +117,10 @@ function appInit() {
         let tempUser = JSON.parse(localStorage.getItem('localTasks'));
         // console.log(tempUser)
 
+        tempUser.projects.forEach (project => {
+            $user.addProject(project)
+        })
+
         tempUser.tasks.forEach( task => {
             let newTask = new Task(task.title, task.description, task.date, task.status)
             $user.addTask(newTask)
@@ -118,8 +131,4 @@ function appInit() {
       }
 }
 
-function restoreFromStorage() {
-
-}
-
-export {User, Task, addTask, updateLocalStorage, $user}
+export {User, Task, addProj, addTask, updateLocalStorage, $user}
