@@ -1,6 +1,5 @@
 import css from './style.css';
-import { User } from './modules/user';
-import { addTask, Task } from './modules/task';
+import { User, Task, addTask } from './modules/storage';
 import { renderNav, renderFooter, renderSidebar, renderTasks, renderTaskList, toggleAddTask, toggleTaskDescription } from './modules/ui';
 
 var createContainer = document.createElement('div');
