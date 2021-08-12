@@ -84,6 +84,7 @@ window.addEventListener('click', (e) => {
     }
     if (e.target.id === 'add-task') {
         addTask()
+        $user.sortTasks()
         updateTaskList()
     }
     if (e.target.id === 'inbox') {
@@ -91,7 +92,18 @@ window.addEventListener('click', (e) => {
         updateHeader()
         updateTaskList()
     }
+    if (e.target.id === 'today') {
+        updateCurrentProject('today')
+        updateHeader()
+        updateTaskList()
+    }
+    if (e.target.id === 'this-week') {
+        updateCurrentProject('this-week')
+        updateHeader()
+        updateTaskList()
+    }
     if (e.target.id.substring(0,8) === 'projname') {
+        $user.sortTasks()
         updateCurrentProject(e.target.id.substring(8))
         updateHeader()
         updateTaskList()
@@ -110,6 +122,8 @@ window.addEventListener('click', (e) => {
         }
         else if (e.target.tagName === 'I' && (e.target.innerText === 'radio_button_unchecked'||e.target.innerText === 'check_circle')) {
             toggleTaskStatus(e.target.id)
+            $user.sortTasks()
+            updateTaskList()
         }
         else {
             toggleTaskDescription(e.target.id)
@@ -126,6 +140,7 @@ const $taskName = document.getElementById('task-name')
 const $taskDesc = document.getElementById('task-desc')
 const $taskDate = document.getElementById('task-date')
 
+$user.sortTasks()
 updateProjects()
 updateHeader()
 updateTaskList()

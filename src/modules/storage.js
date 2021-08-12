@@ -1,7 +1,9 @@
 import { $taskName, $taskDesc, $taskDate } from "./../index";
-import { renderSidebarProjects, toggleAddTask, updateProjects } from "./ui";
+import { toggleAddTask, updateProjects } from "./ui";
+import { format, startOfToday, isSameWeek, toDate, parseISO} from 'date-fns'
 
 var $project = 'Inbox'
+var $dateToday = format(startOfToday(), 'yyyy-MM-dd')
 
 class User {
     constructor() {
@@ -15,6 +17,11 @@ class User {
 
     removeTask(index) {
         this.tasks.splice(index,1)
+    }
+
+    sortTasks() {
+        $user.tasks.sort(function(a,b) {return new Date(a.date) - new Date(b.date)})
+        $user.tasks.sort((function(a,b) {return a.status-b.status}))
     }
 
     addProject(name) {
@@ -65,13 +72,14 @@ function addTask() {
     if ($taskName.value === "") {
         alert('Task Name is required')
     } else {
-        var tempTask = new Task($taskName.value, `Details: ${$taskDesc.value}`, $taskDate.value, false, $project)
+        var tempDate = format(toDate(parseISO($taskDate.value)), 'yyyy-MM-dd')
+        var tempTask = new Task($taskName.value, `Details: ${$taskDesc.value}`, tempDate, false, $project)
         $user.addTask(tempTask)
         updateLocalStorage()
         
         $taskName.value = "";
         $taskDesc.value = "";
-        $taskDate.value = "2021-07-31"
+        $taskDate.value = $dateToday;
         toggleAddTask()
     }
 }
@@ -124,7 +132,8 @@ function appInit() {
         })
 
         tempUser.tasks.forEach( task => {
-            let newTask = new Task(task.title, task.description, task.date, task.status, task.project)
+            let newDate = format(toDate(parseISO(task.date)), 'yyyy-MM-dd')
+            let newTask = new Task(task.title, task.description, newDate, task.status, task.project)
             $user.addTask(newTask)
         })
       } 
@@ -136,11 +145,13 @@ function appInit() {
 function updateCurrentProject(index) {
     if (index === 'inbox') {
         $project = 'Inbox'
+    } else if (index === 'today') {
+        $project = 'Today'
+    } else if (index === 'this-week') {
+        $project = 'This Week'
     } else {
         $project = $user.projects[index]
     }
 }
 
-console.log($user)
-
-export {User, Task, addProj, addTask, updateLocalStorage, updateCurrentProject, $user, $project}
+export {User, Task, addProj, addTask, updateLocalStorage, updateCurrentProject, $user, $dateToday, $project}
