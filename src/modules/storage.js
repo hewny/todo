@@ -1,5 +1,7 @@
 import { $taskName, $taskDesc, $taskDate } from "./../index";
-import { renderSidebarProjects, toggleAddTask } from "./ui";
+import { renderSidebarProjects, toggleAddTask, updateProjects } from "./ui";
+
+var $project = 'Inbox'
 
 class User {
     constructor() {
@@ -25,11 +27,12 @@ class User {
 }
 
 class Task {
-    constructor(title,description,date,status) {
+    constructor(title,description,date,status,project) {
         this.title = title;
         this.description = description;
         this.date = date;
         this.status = status;
+        this.project = project
         this.descriptionFlag = false;
     }
 
@@ -55,14 +58,14 @@ function addProj() {
     } else {
         $user.addProject(document.getElementById('proj-input').value)
         updateLocalStorage()
-        renderSidebarProjects()
+        updateProjects()
     }
 }
 function addTask() {
     if ($taskName.value === "") {
         alert('Task Name is required')
     } else {
-        var tempTask = new Task($taskName.value, `Details: ${$taskDesc.value}`, $taskDate.value, false)
+        var tempTask = new Task($taskName.value, `Details: ${$taskDesc.value}`, $taskDate.value, false, $project)
         $user.addTask(tempTask)
         updateLocalStorage()
         
@@ -115,14 +118,13 @@ appInit()
 function appInit() {
     if (storageAvailable('localStorage')) {
         let tempUser = JSON.parse(localStorage.getItem('localTasks'));
-        // console.log(tempUser)
 
         tempUser.projects.forEach (project => {
             $user.addProject(project)
         })
 
         tempUser.tasks.forEach( task => {
-            let newTask = new Task(task.title, task.description, task.date, task.status)
+            let newTask = new Task(task.title, task.description, task.date, task.status, task.project)
             $user.addTask(newTask)
         })
       } 
@@ -131,4 +133,14 @@ function appInit() {
       }
 }
 
-export {User, Task, addProj, addTask, updateLocalStorage, $user}
+function updateCurrentProject(index) {
+    if (index === 'inbox') {
+        $project = 'Inbox'
+    } else {
+        $project = $user.projects[index]
+    }
+}
+
+console.log($user)
+
+export {User, Task, addProj, addTask, updateLocalStorage, updateCurrentProject, $user, $project}

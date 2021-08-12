@@ -1,6 +1,6 @@
 import css from './style.css';
-import { User, Task, addProj, addTask, $user} from './modules/storage';
-import { renderNav, renderFooter, renderSidebar, renderSidebarProjects, renderTasks, renderTaskList, renderAddProject, toggleAddTask, removeTask, toggleTaskStatus, toggleTaskDescription } from './modules/ui';
+import { $user, addProj, addTask, updateCurrentProject, updateLocalStorage} from './modules/storage';
+import { initContainers, updateProjects, updateHeader, updateTaskList, renderAddProject, toggleAddTask, removeTask, toggleTaskStatus, toggleTaskDescription } from './modules/ui';
 
 var createContainer = document.createElement('div');
 createContainer.id = 'container';
@@ -66,10 +66,7 @@ function createInput(type, inputType, id, inputName, inputPlaceholder, inputValu
     return tempInput
 }
 
-renderNav();
-renderSidebar();
-renderTasks();
-renderFooter();
+initContainers();
 
 window.addEventListener('click', (e) => {
     console.log(e.target.id)
@@ -83,11 +80,29 @@ window.addEventListener('click', (e) => {
         addProj()
     }
     if (e.target.id === 'proj-btn-cancel') {
-        renderSidebarProjects()
+        updateProjects()
     }
     if (e.target.id === 'add-task') {
         addTask()
-        renderTaskList()
+        updateTaskList()
+    }
+    if (e.target.id === 'inbox') {
+        updateCurrentProject('inbox')
+        updateHeader()
+        updateTaskList()
+    }
+    if (e.target.id.substring(0,8) === 'projname') {
+        updateCurrentProject(e.target.id.substring(8))
+        updateHeader()
+        updateTaskList()
+    }
+    if (e.target.id.substring(0,8) === 'projhead') {
+        $user.removeProject(e.target.id.substring(8))
+        updateLocalStorage()
+        updateCurrentProject('inbox')
+        updateProjects()
+        updateHeader()
+        updateTaskList()
     }
     if (!isNaN(Number.parseInt(e.target.id))) {
         if (e.target.tagName === 'I' && e.target.innerText === 'delete') {
@@ -104,18 +119,15 @@ window.addEventListener('click', (e) => {
 
 const $sideBarContainer = document.getElementById('sidebar-container')
 const $addTaskOverlay = document.getElementsByClassName('add-task-overlay')
-const $addTaskContainer= document.getElementsByClassName('add-task-container')
+const $addTaskContainer = document.getElementsByClassName('add-task-container')
+const $headerContainer = document.getElementById('main-header')
 const $taskListContainer = document.getElementById('task-list-container')
 const $taskName = document.getElementById('task-name')
 const $taskDesc = document.getElementById('task-desc')
 const $taskDate = document.getElementById('task-date')
 
-renderTaskList()
+updateProjects()
+updateHeader()
+updateTaskList()
 
-// console.log($sideBarContainer.lastChild)
-// console.log($sideBarContainer.lastElementChild)
-
-renderSidebarProjects()
-renderSidebarProjects()
-
-export {$container, createIcon, createElement, createInput, $sideBarContainer, $addTaskOverlay, $addTaskContainer, $taskListContainer, $taskName, $taskDesc, $taskDate}
+export {$container, createIcon, createElement, createInput, $sideBarContainer, $addTaskOverlay, $addTaskContainer, $taskListContainer, $headerContainer, $taskName, $taskDesc, $taskDate}
