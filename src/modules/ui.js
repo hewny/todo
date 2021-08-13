@@ -1,6 +1,10 @@
-import { $container, createElement, createInput, createIcon, $sideBarContainer, $taskListContainer, $addTaskOverlay, $addTaskContainer, $headerContainer } from "../index.js";
-import { $user, $dateToday, $project, updateLocalStorage } from "./storage";
+import { $sideBarContainer, $taskListContainer, $addTaskOverlay, $addTaskContainer, $headerContainer } from "../index.js";
+import { $user, $dateToday, $project } from "./storage";
+import { createIcon, createElement, createInput} from "./dom";
 import { isSameWeek, parseISO } from 'date-fns'
+
+document.body.appendChild(createElement('div',null,'container',null,null));
+const $container = document.getElementById('container');
 
 const defaultMenu = [
     {icon:"home", text:"Inbox", id:"inbox"},
@@ -91,142 +95,67 @@ function updateTaskList() {
 
     if ($project === 'Inbox') {
         for (let i=0; i<$user.tasks.length; i++) {
-            var task = createElement('div','task',i,null,null)
-            var taskLeft = createElement('div','task-left',null,null,null)
-            var taskRight = createElement('div','task-right',null,null,null)
-            var taskDetails = createElement('div','task-details',null,null,null)
-    
-            if ($user.tasks[i].status === true) {
-                taskLeft.appendChild(createIcon('check_circle',i))
-                task.classList.add('task-completed')
-                taskLeft.appendChild(createElement('p','line-through',i,null,$user.tasks[i].title))
-                taskRight.appendChild(createElement('p','line-through',i,null,$user.tasks[i].date))
-            } else {
-                taskLeft.appendChild(createIcon('radio_button_unchecked',i))
-                taskLeft.appendChild(createElement('p',null,i,null,$user.tasks[i].title))
-                taskRight.appendChild(createElement('p',null,i,null,$user.tasks[i].date))
-            }
-            taskRight.appendChild(createIcon('delete',i))
-            taskDetails.appendChild(createElement('p',null,i,null,$user.tasks[i].description))
-    
-            if ($user.tasks[i].descriptionFlag === true) {
-                taskDetails.classList.add('show-div')
-            }
-            
-            task.appendChild(taskLeft)
-            task.appendChild(taskRight)
-            task.appendChild(taskDetails)
-    
-            $taskListContainer.appendChild(task)
+            $taskListContainer.appendChild(_createTask(i))
         }
     } else if ($project === 'Today') {
         for (let i=0; i<$user.tasks.length; i++) {
             if ($user.tasks[i].date == $dateToday) {
-                var task = createElement('div','task',i,null,null)
-                var taskLeft = createElement('div','task-left',null,null,null)
-                var taskRight = createElement('div','task-right',null,null,null)
-                var taskDetails = createElement('div','task-details',null,null,null)
-        
-                if ($user.tasks[i].status === true) {
-                    taskLeft.appendChild(createIcon('check_circle',i))
-                    task.classList.add('task-completed')
-                    taskLeft.appendChild(createElement('p','line-through',i,null,$user.tasks[i].title))
-                    taskRight.appendChild(createElement('p','line-through',i,null,$user.tasks[i].date))
-                } else {
-                    taskLeft.appendChild(createIcon('radio_button_unchecked',i))
-                    taskLeft.appendChild(createElement('p',null,i,null,$user.tasks[i].title))
-                    taskRight.appendChild(createElement('p',null,i,null,$user.tasks[i].date))
-                }
-                taskRight.appendChild(createIcon('delete',i))
-                taskDetails.appendChild(createElement('p',null,i,null,$user.tasks[i].description))
-        
-                if ($user.tasks[i].descriptionFlag === true) {
-                    taskDetails.classList.add('show-div')
-                }
-                
-                task.appendChild(taskLeft)
-                task.appendChild(taskRight)
-                task.appendChild(taskDetails)
-        
-                $taskListContainer.appendChild(task)
+                $taskListContainer.appendChild(_createTask(i))
             }
         }
     } else if ($project === 'This Week') {
         for (let i=0; i<$user.tasks.length; i++) {
             if (isSameWeek(parseISO($dateToday), parseISO($user.tasks[i].date))) {
-                var task = createElement('div','task',i,null,null)
-                var taskLeft = createElement('div','task-left',null,null,null)
-                var taskRight = createElement('div','task-right',null,null,null)
-                var taskDetails = createElement('div','task-details',null,null,null)
-        
-                if ($user.tasks[i].status === true) {
-                    taskLeft.appendChild(createIcon('check_circle',i))
-                    task.classList.add('task-completed')
-                    taskLeft.appendChild(createElement('p','line-through',i,null,$user.tasks[i].title))
-                    taskRight.appendChild(createElement('p','line-through',i,null,$user.tasks[i].date))
-                } else {
-                    taskLeft.appendChild(createIcon('radio_button_unchecked',i))
-                    taskLeft.appendChild(createElement('p',null,i,null,$user.tasks[i].title))
-                    taskRight.appendChild(createElement('p',null,i,null,$user.tasks[i].date))
-                }
-                taskRight.appendChild(createIcon('delete',i))
-                taskDetails.appendChild(createElement('p',null,i,null,$user.tasks[i].description))
-        
-                if ($user.tasks[i].descriptionFlag === true) {
-                    taskDetails.classList.add('show-div')
-                }
-                
-                task.appendChild(taskLeft)
-                task.appendChild(taskRight)
-                task.appendChild(taskDetails)
-        
-                $taskListContainer.appendChild(task)
+                $taskListContainer.appendChild(_createTask(i))
             }
         }
     } else {
         for (let i=0; i<$user.tasks.length; i++) {
             if ($user.tasks[i].project === $project) {
-                var task = createElement('div','task',i,null,null)
-                var taskLeft = createElement('div','task-left',null,null,null)
-                var taskRight = createElement('div','task-right',null,null,null)
-                var taskDetails = createElement('div','task-details',null,null,null)
-        
-                if ($user.tasks[i].status === true) {
-                    taskLeft.appendChild(createIcon('check_circle',i))
-                    task.classList.add('task-completed')
-                    taskLeft.appendChild(createElement('p','line-through',i,null,$user.tasks[i].title))
-                    taskRight.appendChild(createElement('p','line-through',i,null,$user.tasks[i].date))
-                } else {
-                    taskLeft.appendChild(createIcon('radio_button_unchecked',i))
-                    taskLeft.appendChild(createElement('p',null,i,null,$user.tasks[i].title))
-                    taskRight.appendChild(createElement('p',null,i,null,$user.tasks[i].date))
-                }
-                taskRight.appendChild(createIcon('delete',i))
-                taskDetails.appendChild(createElement('p',null,i,null,$user.tasks[i].description))
-        
-                if ($user.tasks[i].descriptionFlag === true) {
-                    taskDetails.classList.add('show-div')
-                }
-                
-                task.appendChild(taskLeft)
-                task.appendChild(taskRight)
-                task.appendChild(taskDetails)
-        
-                $taskListContainer.appendChild(task)
+                $taskListContainer.appendChild(_createTask(i))
             }
         }
     }
-
 }
 
-function renderAddProject() {
+function _createTask(i) {
+    var task = createElement('div','task',i,null,null)
+    var taskLeft = createElement('div','task-left',null,null,null)
+    var taskRight = createElement('div','task-right',null,null,null)
+    var taskDetails = createElement('div','task-details',null,null,null)
+
+    if ($user.tasks[i].status === true) {
+        taskLeft.appendChild(createIcon('check_circle',i))
+        task.classList.add('task-completed')
+        taskLeft.appendChild(createElement('p','line-through',i,null,$user.tasks[i].title))
+        taskRight.appendChild(createElement('p','line-through',i,null,$user.tasks[i].date))
+    } else {
+        taskLeft.appendChild(createIcon('radio_button_unchecked',i))
+        taskLeft.appendChild(createElement('p',null,i,null,$user.tasks[i].title))
+        taskRight.appendChild(createElement('p',null,i,null,$user.tasks[i].date))
+    }
+    taskRight.appendChild(createIcon('delete',i))
+    taskDetails.appendChild(createElement('p',null,i,null,$user.tasks[i].description))
+
+    if ($user.tasks[i].descriptionFlag === true) {
+        taskDetails.classList.add('show-div')
+    }
+    
+    task.appendChild(taskLeft)
+    task.appendChild(taskRight)
+    task.appendChild(taskDetails)
+
+    return task
+}
+
+function addNewProjectFields() {
     $sideBarContainer.removeChild($sideBarContainer.lastChild)
     $sideBarContainer.appendChild(createInput('input','text','proj-input',null,"eg. Work",null,null))
     $sideBarContainer.appendChild(createElement('button','proj-btn-add','proj-btn-add',null,'Add'))
     $sideBarContainer.appendChild(createElement('button','proj-btn-cancel','proj-btn-cancel',null,'Cancel'))
 }
 
-function toggleAddTask() {
+function toggleAddTaskContainer() {
     if ($addTaskOverlay[0].classList.contains('show-div')) {
         $addTaskOverlay[0].classList.remove('show-div')
         $addTaskContainer[0].classList.remove('show-div')
@@ -236,22 +165,11 @@ function toggleAddTask() {
     }
 }
 
-function removeTask(index) {
-    $user.removeTask(index);
-    updateLocalStorage()
-    updateTaskList()
+export {
+    initContainers, 
+    updateProjects, 
+    updateHeader, 
+    updateTaskList, 
+    addNewProjectFields, 
+    toggleAddTaskContainer, 
 }
-
-function toggleTaskStatus(index) {
-    $user.tasks[index].updateStatus()
-    updateLocalStorage()
-    updateTaskList()
-}
-
-function toggleTaskDescription(index) {
-    $user.tasks[index].updateDescriptionFlag()
-    updateLocalStorage()
-    updateTaskList()
-}
-
-export {initContainers, updateProjects, updateHeader, updateTaskList, renderAddProject, toggleAddTask, removeTask, toggleTaskStatus, toggleTaskDescription}

@@ -103,6 +103,10 @@ button {
     font-size: 24px;
 }
 
+.main-header i:hover {
+    cursor: pointer;
+}
+
 .main-header button {
     width: auto;
     margin-left: auto;

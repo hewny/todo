@@ -1,33 +1,32 @@
 import { $taskName, $taskDesc, $taskDate } from "./../index";
-import { toggleAddTask, updateProjects } from "./ui";
-import { format, startOfToday, isSameWeek, toDate, parseISO} from 'date-fns'
-
-var $project = 'Inbox'
-var $dateToday = format(startOfToday(), 'yyyy-MM-dd')
+import { toggleAddTaskContainer, updateProjects, updateTaskList } from "./ui";
+import { format, startOfToday, toDate, parseISO} from 'date-fns'
 
 class User {
     constructor() {
         this.tasks = []
         this.projects = []
     }
-
+    
     addTask(obj) {
         this.tasks.push(obj)
     }
-
+    
     removeTask(index) {
         this.tasks.splice(index,1)
+        updateLocalStorage()
+        updateTaskList()
     }
-
+    
     sortTasks() {
         $user.tasks.sort(function(a,b) {return new Date(a.date) - new Date(b.date)})
         $user.tasks.sort((function(a,b) {return a.status-b.status}))
     }
-
+    
     addProject(name) {
         this.projects.push(name)
     }
-
+    
     removeProject(index) {
         this.projects.splice(index,1)
     }
@@ -42,22 +41,35 @@ class Task {
         this.project = project
         this.descriptionFlag = false;
     }
-
+    
     updateStatus() {
         if (this.status === false) {
             this.status = true
+            updateLocalStorage()
+            updateTaskList()
         } else {
             this.status = false
+            updateLocalStorage()
+            updateTaskList()
         }
     }
     updateDescriptionFlag() {
         if (this.descriptionFlag === false) {
             this.descriptionFlag = true
+            updateLocalStorage()
+            updateTaskList()
         } else {
             this.descriptionFlag = false
+            updateLocalStorage()
+            updateTaskList()
         }
     }
 }
+
+var $user = new User
+var $project = 'Inbox'
+var $dateToday = format(startOfToday(), 'yyyy-MM-dd')
+_restoreUser()
 
 function addProj() {
     if (document.getElementById('proj-input').value === "") {
@@ -80,7 +92,7 @@ function addTask() {
         $taskName.value = "";
         $taskDesc.value = "";
         $taskDate.value = $dateToday;
-        toggleAddTask()
+        toggleAddTaskContainer()
     }
 }
 
@@ -111,8 +123,6 @@ function storageAvailable(type) {
 	}
 }
 
-var $user = new User
-
 function updateLocalStorage() {
     if ($user.length === 0) {
         localStorage.removeItem('localTasks')
@@ -121,9 +131,7 @@ function updateLocalStorage() {
     }
 }
 
-appInit()
-
-function appInit() {
+function _restoreUser() {
     if (storageAvailable('localStorage')) {
         let tempUser = JSON.parse(localStorage.getItem('localTasks'));
 
@@ -154,4 +162,14 @@ function updateCurrentProject(index) {
     }
 }
 
-export {User, Task, addProj, addTask, updateLocalStorage, updateCurrentProject, $user, $dateToday, $project}
+export {
+    User, 
+    Task, 
+    addProj, 
+    addTask, 
+    updateLocalStorage, 
+    updateCurrentProject, 
+    $user, 
+    $project,
+    $dateToday, 
+}
